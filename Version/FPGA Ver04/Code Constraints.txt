@@ -1,0 +1,26 @@
+set_property IOSTANDARD LVCMOS33 [get_ports *]
+
+## Clock
+set_property PACKAGE_PIN W5 [get_ports clk]
+create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports clk]
+
+## Nút bấm (Buttons)
+set_property PACKAGE_PIN T18 [get_ports btnUp]
+set_property PACKAGE_PIN U17 [get_ports btnDown]
+## Led Nút bấm 
+set_property PACKAGE_PIN E19 [get_ports led_btnUp]  
+set_property PACKAGE_PIN U19 [get_ports led_btnDown]
+
+##Switch Fail-Safe
+set_property PACKAGE_PIN V17 [get_ports sw_fail_safe]
+##LED Switch Fail-Safe
+set_property PACKAGE_PIN U16 [get_ports led_sw_fail_safe]
+
+## Led cảnh báo vượt ngưỡng 50%
+set_property PACKAGE_PIN P1 [get_ports led_duty_cycle_greater]
+set_property PACKAGE_PIN N3 [get_ports led_final_duty_cycle_greater]
+
+## PWM Output (Nối ra chân J1 cổng Pmod JA)
+set_property PACKAGE_PIN J1 [get_ports pwm_out]
+##set_property PACKAGE_PIN L1 [get_ports pwm_out]
+

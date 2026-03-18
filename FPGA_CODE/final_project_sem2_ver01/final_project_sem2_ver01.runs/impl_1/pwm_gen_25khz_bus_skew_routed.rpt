@@ -1,0 +1,16 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
+| Date         : Fri Feb 27 19:16:06 2026
+| Host         : DESKTOP-GMTC8DG running 64-bit major release  (build 9200)
+| Command      : report_bus_skew -warn_on_violation -file pwm_gen_25khz_bus_skew_routed.rpt -pb pwm_gen_25khz_bus_skew_routed.pb -rpx pwm_gen_25khz_bus_skew_routed.rpx
+| Design       : pwm_gen_25khz
+| Device       : xa7a35t-cpg236
+| Speed File   : -1I  PRODUCTION 1.16 2018-06-13
+| Design State : Routed
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bus Skew Report
+
+No bus skew constraints
+

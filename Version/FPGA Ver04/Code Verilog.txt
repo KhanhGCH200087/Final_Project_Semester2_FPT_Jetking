@@ -1,0 +1,126 @@
+//Module phụ: chống dội phím
+module debounce(
+    input clk, 
+    input btn_in,
+    output reg btn_out
+);
+
+    reg [26:0] count; // dùng 26 thanh ghi để chứa giá trị 1 trăm triệu
+    reg btn_pre; //trạng thái trước đó của nút
+    
+    always @(posedge clk) begin
+        if(btn_in == btn_pre) begin // trường hợp 2 nút có giá trị bằng nhau --> đang ổn định
+            if(count < 27'd100_000_000) count <= count + 1; //chưa đạt tới chu kỳ 100 triệu --> tiếp tục đếm thời gian
+            else btn_out <= btn_in; //đã đủ chu kỳ 100 triệu --> xuất tín hiệu ra ngoài
+        end else begin //trường hợp 2 nút có giá trị khác nhau (mới bấm hoặc đang bị nhiễu
+            count <= 0; //reset bộ đếm về 0 để bắt đầu lại từ đầu
+            btn_pre = btn_in;   // Cập nhật trạng thái mới để so sánh ở nhịp sau
+            btn_out <= 0; // Trong lúc đang nhiễu thì tuyệt đối không xuất tín hiệu 1
+        end
+    end
+ endmodule
+
+//Phần module chính
+module pwm_control(
+    input wire clk,
+    input wire btnUp,
+    input wire btnDown,
+    input wire sw_fail_safe,
+    output reg pwm_out,
+    
+    output led_sw_fail_safe,
+    output led_btnUp,
+    output led_btnDown,
+    output reg led_duty_cycle_greater,
+    output reg led_final_duty_cycle_greater
+);
+
+assign led_btnUp = btnUp;
+assign led_btnDown = btnDown;
+assign led_sw_fail_safe = sw_fail_safe; 
+
+parameter MAX_COUNT = 4000; //100.000.000 (100MHz) % 25.000 (kHz)
+parameter STEP = 400; //change 10% of Duty Cycle when each button is pressed
+parameter LIMIT_COUNT = 2000; //Duty Cycle: 50%
+
+reg [11:0] duty_cycle_reg = 0;//giá trị Duty Cycle mong muốn, dùng 12 thanh ghi để chứa đủ giá trị 4000
+reg [11:0] pwm_counter = 0; //tương tự như thanh ghi, để chứa đủ 4000 chu kỳ
+reg [11:0] final_duty_cycle_reg = 0; //gía trị Duty Cycle khi đi qua bộ fail-safe
+
+//Mạch chống dội phím
+wire up_pressed, down_pressed;
+debounce db_up (.clk(clk), .btn_in(btnUp), .btn_out(up_pressed));
+debounce dp_down (.clk(clk), .btn_in(btnDown), .btn_out(down_pressed));
+// tác dụng: để lọc nhiễu
+// ta dùng up_pressed và down_pressed đã được lọc nhiễu chứu không dùng btnUp và btnDOWN
+
+//Logic điều khiển nút bấm
+always @(posedge clk) begin
+    if(up_pressed) begin //Kiểm tra xem tín hiệu từ Module Chống dội phím có đang ở mức Cao không.        if(duty_cycle_reg + STEP <= MAX_COUNT) // kiểm tra giá trị hiện tại của Duty Cycle có vượt quá 4000 ko --> ngăn chặn giá trị Duty Cycle vượt quá ngưỡng  --> VD vượt quá 150%
+            duty_cycle_reg <= duty_cycle_reg + STEP;    
+        end
+        else if (down_pressed) begin //Nếu không tăng thì kiểm tra xem có lệnh giảm không
+            if(duty_cycle_reg >= STEP) // ngặn chặn Duty Cycle giảm dưới ngưỡng --> VD dưới 0%
+                duty_cycle_reg <= duty_cycle_reg - STEP;
+        end
+     end
+
+//Fail-safe 50%
+always @(posedge clk) begin
+    if(!sw_fail_safe) begin //Trường hợp SW Fail-safe = 0
+        if(duty_cycle_reg > LIMIT_COUNT) begin
+           final_duty_cycle_reg <= LIMIT_COUNT;
+        end else begin
+           final_duty_cycle_reg <= duty_cycle_reg;
+        end
+    end else begin
+        final_duty_cycle_reg <= duty_cycle_reg;
+    end  
+end
+
+// check if Duty Cycle > 50%
+always @(posedge clk) begin
+    if(duty_cycle_reg >= LIMIT_COUNT) begin
+        led_duty_cycle_greater = 1'b1;
+    end else begin 
+        led_duty_cycle_greater = 1'b0;
+    end
+end
+
+// check if Final Duty Cycle > 50%
+always @(posedge clk) begin
+    if(final_duty_cycle_reg >= LIMIT_COUNT) begin
+        led_final_duty_cycle_greater = 1'b1;
+    end else begin 
+        led_final_duty_cycle_greater = 1'b0;
+    end
+end
+
+
+// phần tạo xung PWM
+always @(posedge clk) begin
+    if(pwm_counter < MAX_COUNT - 1) begin
+        pwm_counter = pwm_counter + 1; // nếu chưa chạm mốc thì tăng 1
+    end else begin
+        pwm_counter <= 0; //đã chạm mốc --> giảm thành 0   
+    end
+    
+    if(pwm_counter < final_duty_cycle_reg) begin
+        pwm_out = 1'b0; 
+    end else begin
+        pwm_out = 1'b1;
+    end
+end
+
+endmodule
+
+
+
+
+
+
+
+
+
+
+

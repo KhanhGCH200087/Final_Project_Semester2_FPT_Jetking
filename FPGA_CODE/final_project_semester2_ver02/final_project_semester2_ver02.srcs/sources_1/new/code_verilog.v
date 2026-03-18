@@ -1,0 +1,36 @@
+module pwm_gen_25khz (
+    input wire clk,          // Clock 100MHz từ chân W5 của Basys 3
+    input wire [7:0] sw_duty,     // 8 công tắc gạt để chỉnh Duty Cycle
+    output reg pwm_out       // Đầu ra xung PWM
+);
+
+    // Tham số tính toán
+    //parameter MAX_COUNT = 4000; // 100MHz / 25kHz = 4000
+    parameter MAX_COUNT = 4000000; //25Hz
+
+//    reg [11:0] counter = 0;    // Bộ đếm 12-bit (đủ chứa giá trị 4000)
+//    wire [11:0] duty_limit;
+    reg [23:0] counter = 0;    //25Hz
+    wire [23:0] duty_limit;     //25Hz
+
+    // Chuyển đổi giá trị 8-bit từ sw_dutyitch (0-255) sang thang đo 4000
+    // Công thức: duty_limit = (sw_duty * 4000) / 256
+    assign duty_limit = (sw_duty * MAX_COUNT) >> 8;
+
+    always @(posedge clk) begin
+        // Bộ đếm chu kỳ
+        if (counter < MAX_COUNT - 1) begin
+            counter <= counter + 1;
+        end else begin
+            counter <= 0;
+        end
+
+        // Tạo xung PWM dựa trên giá trị so sánh
+        if (counter < duty_limit) begin
+            pwm_out <= 1'b0;
+        end else begin
+            pwm_out <= 1'b1;
+        end
+    end
+
+endmodule
