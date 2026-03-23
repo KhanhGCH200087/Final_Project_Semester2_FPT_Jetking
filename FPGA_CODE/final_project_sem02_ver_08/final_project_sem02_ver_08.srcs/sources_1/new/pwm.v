@@ -11,6 +11,8 @@ module pwm_gen (
     localparam STEP_1PCT = 32;   
     // Ngưỡng chặn 23% công suất 
     localparam LIMIT_PCT = 736; 
+    //1/2 100MHz
+    localparam MAX_FR_COUNT = 49_999_999;
 
     reg [11:0] counter = 0;    
     wire [11:0] duty_calc;
@@ -20,7 +22,7 @@ module pwm_gen (
     reg clk_out_reg = 0;
 
     always @(posedge clk) begin
-    	if(counter_reg == 49_999_999) begin
+    	if(counter_reg == MAX_FR_COUNT) begin
        	   counter_reg <=0;
            clk_out_reg <= ~clk_out_reg;
         end
