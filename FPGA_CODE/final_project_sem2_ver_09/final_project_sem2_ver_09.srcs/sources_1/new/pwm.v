@@ -1,11 +1,18 @@
 module pwm_gen (
     input wire clk,          // 100MHz
     input wire [4:0] sw,     // 5 Switch
+    output [4:0] led_sw,       // led báo switch
     output reg pwm_out,      // Đầu ra chân J1
     output reg led_warning,
     output reg [6:0] seg,    // 7 đoạn (a-g)
     output reg [3:0] an      // 4 chân Anode (AN0-AN3)
 );
+    //led SW
+    assign led_sw[0] = sw[0];
+    assign led_sw[1] = sw[1];
+    assign led_sw[2] = sw[2];
+    assign led_sw[3] = sw[3];
+    assign led_sw[4] = sw[4];
 
     // Thông số PWM
     localparam MAX_COUNT = 3125; 
