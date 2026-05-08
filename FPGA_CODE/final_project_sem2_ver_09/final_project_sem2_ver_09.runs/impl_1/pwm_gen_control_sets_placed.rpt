@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Mon Mar 23 20:11:18 2026
+| Date         : Mon Apr  6 19:05:55 2026
 | Host         : DESKTOP-GMTC8DG running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file pwm_gen_control_sets_placed.rpt
 | Design       : pwm_gen
@@ -60,7 +60,7 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | No           | No                    | No                     |               6 |            4 |
 | No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              40 |           13 |
+| No           | Yes                   | No                     |              40 |           12 |
 | Yes          | No                    | No                     |               0 |            0 |
 | Yes          | No                    | Yes                    |               0 |            0 |
 | Yes          | Yes                   | No                     |               0 |            0 |
@@ -77,7 +77,7 @@ Table of Contents
 |  clk_IBUF_BUFG |               | pwm_out_reg_i_1_n_0 |                1 |              1 |         1.00 |
 |  clk_IBUF_BUFG |               |                     |                4 |              6 |         1.50 |
 |  clk_IBUF_BUFG |               | clear               |                3 |             12 |         4.00 |
-|  clk_IBUF_BUFG |               | clk_out_reg         |                8 |             26 |         3.25 |
+|  clk_IBUF_BUFG |               | clk_out_reg         |                7 |             26 |         3.71 |
 +----------------+---------------+---------------------+------------------+----------------+--------------+
 
 

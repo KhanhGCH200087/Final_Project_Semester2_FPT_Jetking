@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Mon Mar 23 20:11:44 2026
+| Date         : Mon Apr  6 19:06:20 2026
 | Host         : DESKTOP-GMTC8DG running 64-bit major release  (build 9200)
 | Command      : report_methodology -file pwm_gen_methodology_drc_routed.rpt -pb pwm_gen_methodology_drc_routed.pb -rpx pwm_gen_methodology_drc_routed.rpx
 | Design       : pwm_gen

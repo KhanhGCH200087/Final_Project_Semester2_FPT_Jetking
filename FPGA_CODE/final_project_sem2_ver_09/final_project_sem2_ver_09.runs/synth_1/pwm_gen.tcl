@@ -58,7 +58,6 @@ if {$::dispatch::connected} {
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param general.usePosixSpawnForFork 1
 set_param chipscope.maxJobs 2
-set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tcpg236-1
 
@@ -87,6 +86,8 @@ read_xdc F:/HW/Chip_Design_FPT_Jetking/Semester_2/Final_Project/Git/Final_Projec
 set_property used_in_implementation false [get_files F:/HW/Chip_Design_FPT_Jetking/Semester_2/Final_Project/Git/Final_Project_Semester2_FPT_Jetking/FPGA_CODE/final_project_sem2_ver_09/final_project_sem2_ver_09.srcs/constrs_1/new/pwm_constraint.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
+
+read_checkpoint -auto_incremental -incremental F:/HW/Chip_Design_FPT_Jetking/Semester_2/Final_Project/Git/Final_Project_Semester2_FPT_Jetking/FPGA_CODE/final_project_sem2_ver_09/final_project_sem2_ver_09.srcs/utils_1/imports/synth_1/pwm_gen.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

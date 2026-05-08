@@ -20,7 +20,7 @@ set_property PACKAGE_PIN V19 [get_ports {led_sw[3]}]
 set_property PACKAGE_PIN W18 [get_ports {led_sw[4]}]	
 
 # Led báo quá duty quá 23%
-set_property PACKAGE_PIN U16 [get_ports led_warning]					
+set_property PACKAGE_PIN L1 [get_ports led_warning]					
 
 ## PWM Output (Ví dụ xuất ra chân J1 của cổng Pmod JA)
 set_property PACKAGE_PIN J1 [get_ports pwm_out]			
